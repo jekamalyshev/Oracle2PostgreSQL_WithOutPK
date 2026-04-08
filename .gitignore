@@ -1,1 +1,1 @@
-Nothing needs to be added to .gitignore since only a Python source file (`test_oracle_connection.py`) was added, which is source code that should be tracked in version control.
+Nothing needs to be added to .gitignore since only a Jupyter notebook file (.ipynb) was added, which is a source file that should be tracked in version control. No build artifacts, dependencies, or temporary files were detected in the changes.
