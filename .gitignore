@@ -1,80 +1,28 @@
-```
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-.eggs/
-.egg-info/
-dist/
-build/
-*.egg-info/
-
-# Jupyter Notebook
-.ipynb_checkpoints/
 *.ipynb_checkpoints
-
-# Logs
+**/.ipynb_checkpoints
+*.pyc
+__pycache__/
 *.log
-
-# OS generated files
+*.tmp
+*.swp
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-
-# Environment variables
 .env
 .env.local
 .env.*
-!.env.example
-
-# IDE
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# Testing
-.coverage
-htmlcov/
 coverage/
-.pytest_cache/
+htmlcov/
+.coverage
 .mypy_cache/
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
+.pytest_cache/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Coverage
-.coverage*
-
-# Temporary files
-*.tmp
-*~
-```
+build/
+target/
+.gradle/
+node_modules/
+.venv/
+venv/
+.julia/
+zig*/
