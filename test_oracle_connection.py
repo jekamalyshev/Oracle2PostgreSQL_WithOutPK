@@ -1,4 +1,4 @@
-# Минимальное подключение к Oracle DB из Jupyter Notebook (стандартный Python)
+﻿# Минимальное подключение к Oracle DB из Jupyter Notebook (стандартный Python)
 # Библиотека oracledb установлена в стандартном окружении Python (не Anaconda)
 # Установка: pip install oracledb (в системном Python)
 # Тестировано: Python 3.12+, Oracle 19c/23c, thin mode (без Oracle Client)
