@@ -1,13 +1,12 @@
-*.ipynb_checkpoints
-.checkpoints/
+*.ipynb_checkpoints/
 *.pyc
 __pycache__/
-*.log
 .env
 .env.local
-.env.*
+*.env.*
 .vscode/
 .idea/
+*.log
 *.tmp
 *.swp
 .DS_Store
@@ -18,6 +17,8 @@ target/
 node_modules/
 .venv/
 venv/
+.mypy_cache/
+.pytest_cache/
 .coverage
 coverage/
 htmlcov/
