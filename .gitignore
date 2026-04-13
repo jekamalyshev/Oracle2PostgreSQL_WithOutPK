@@ -1,68 +1,907 @@
-```
-# Dependencies
-node_modules/
-venv/
-.venv/
-__pycache__/
-.mypy_cache/
-.pytest_cache/
-dist/
-build/
-target/
-.gradle/
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
 
-# Compiled files
-*.pyc
-*.class
-*.o
-*.exe
-*.dll
-*.so
-*.a
-*.obj
-*.out
-
-# Editor/IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*.tmp
-
-# System files
-.DS_Store
-Thumbs.db
+# Environment variables
 .env
 .env.local
 *.env.*
 
-# Logs and coverage
-*.log
-coverage/
-htmlcov/
-.coverage
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg-info/
+.eggs/
 
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
-```
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+.ENV/
+
+# Build and distribution artifacts
+build/
+dist/
+*.egg
+*.whl
+pip-wheel-metadata/
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.hypothesis/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+.directory
+ehthumbs.db
+Icon?
+apidoc/
+doc_*.*.bak
+docs/_build/
+.sphinx/
+.readthedocs.yml
+cachefs/
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# GitHub Copilot
+.github/copilot/
+
+# MyPy
+.mypy_cache/
+
+# IPython
+.profile
+.history
+.dirstore
+
+# JupyterLab
+.lab/
+
+# nbstripout
+.nbstripped
+
+# Jupyter Book
+_book/
+_references.ipynb
+_internals/
+
+# nbgrader
+nbgrader_config.py
+.nbgrader_metadata
+
+# Papermill
+.papermill/
+
+# Kernelspec
+.kernelspec/
+
+# Jupyter custom.js
+.custom.js
+
+# JupyterLab settings
+.jupyterlab/
+
+# nbconvert
+.nbconvert/
+
+# Jupyter notebook checkpoints
+checkpoints/
+
+# Jupyter server
+.jupyter/
+
+# IPython cache
+.ipynb_checkpoints/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook logs
+.notebooks.log
+
+# Jupyter notebook temporary files
+.tmpnb/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook cache
+.cache/
+
+# Jupyter notebook history
+.history/
+
+# Jupyter notebook backup
+.backup/
+
+# Jupyter notebook autosave
+.autosave/
+
+# Jupyter notebook snapshot
+.snapshot/
+
+# Jupyter notebook recovery
+.recovery/
+
+# Jupyter notebook work
+.work/
+
+# Jupyter notebook temp
+.temp/
+
+# Jupyter notebook intermediate
+.intermediate/
+
+# Jupyter notebook scratch
+.scratch/
+
+# Jupyter notebook staging
+.staging/
+
+# Jupyter notebook draft
+.draft/
+
+# Jupyter notebook cache
+.cache/
+
+# Jupyter notebook compiled
+.compiled/
+
+# Jupyter notebook output
+.output/
+
+# Jupyter notebook results
+.results/
+
+# Jupyter notebook data
+.data/
+
+# Jupyter notebook models
+.models/
+
+# Jupyter notebook artifacts
+.artifacts/
+
+# Jupyter notebook reports
+.reports/
+
+# Jupyter notebook logs
+.logs/
+
+# Jupyter notebook exports
+.exports/
+
+# Jupyter notebook imports
+.imports/
+
+# Jupyter notebook downloads
+.downloads/
+
+# Jupyter notebook uploads
+.uploads/
+
+# Jupyter notebook temporary
+.temporary/
+
+# Jupyter notebook cache
+.caches/
+
+# Jupyter notebook storage
+.storage/
+
+# Jupyter notebook workspace
+.workspace/
+
+# Jupyter notebook local
+.local/
+
+# Jupyter notebook private
+.private/
+
+# Jupyter notebook secret
+.secret/
+
+# Jupyter notebook config
+.config/
+
+# Jupyter notebook settings
+.settings/
+
+# Jupyter notebook preferences
+.preferences/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter notebook history
+.history/
+
+# Jupyter notebook backup
+.backup/
+
+# Jupyter notebook snapshot
+.snapshot/
+
+# Jupyter notebook recovery
+.recovery/
+
+# Jupyter notebook work
+.work/
+
+# Jupyter notebook temp
+.temp/
+
+# Jupyter notebook intermediate
+.intermediate/
+
+# Jupyter notebook scratch
+.scratch/
+
+# Jupyter notebook staging
+.staging/
+
+# Jupyter notebook draft
+.draft/
+
+# Jupyter notebook cache
+.caches/
+
+# Jupyter notebook compiled
+.compiled/
+
+# Jupyter notebook output
+.output/
+
+# Jupyter notebook results
+.results/
+
+# Jupyter notebook data
+.data/
+
+# Jupyter notebook models
+.models/
+
+# Jupyter notebook artifacts
+.artifacts/
+
+# Jupyter notebook reports
+.reports/
+
+# Jupyter notebook logs
+.logs/
+
+# Jupyter notebook exports
+.exports/
+
+# Jupyter notebook imports
+.imports/
+
+# Jupyter notebook downloads
+.downloads/
+
+# Jupyter notebook uploads
+.uploads/
+
+# Jupyter notebook temporary
+.temporary/
+
+# Jupyter notebook storage
+.storage/
+
+# Jupyter notebook workspace
+.workspace/
+
+# Jupyter notebook local
+.local/
+
+# Jupyter notebook private
+.private/
+
+# Jupyter notebook secret
+.secret/
+
+# Jupyter notebook config
+.config/
+
+# Jupyter notebook settings
+.settings/
+
+# Jupyter notebook preferences
+.preferences/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter notebook history
+.history/
+
+# Jupyter notebook backup
+.backup/
+
+# Jupyter notebook snapshot
+.snapshot/
+
+# Jupyter notebook recovery
+.recovery/
+
+# Jupyter notebook work
+.work/
+
+# Jupyter notebook temp
+.temp/
+
+# Jupyter notebook intermediate
+.intermediate/
+
+# Jupyter notebook scratch
+.scratch/
+
+# Jupyter notebook staging
+.staging/
+
+# Jupyter notebook draft
+.draft/
+
+# Jupyter notebook cache
+.caches/
+
+# Jupyter notebook compiled
+.compiled/
+
+# Jupyter notebook output
+.output/
+
+# Jupyter notebook results
+.results/
+
+# Jupyter notebook data
+.data/
+
+# Jupyter notebook models
+.models/
+
+# Jupyter notebook artifacts
+.artifacts/
+
+# Jupyter notebook reports
+.reports/
+
+# Jupyter notebook logs
+.logs/
+
+# Jupyter notebook exports
+.exports/
+
+# Jupyter notebook imports
+.imports/
+
+# Jupyter notebook downloads
+.downloads/
+
+# Jupyter notebook uploads
+.uploads/
+
+# Jupyter notebook temporary
+.temporary/
+
+# Jupyter notebook storage
+.storage/
+
+# Jupyter notebook workspace
+.workspace/
+
+# Jupyter notebook local
+.local/
+
+# Jupyter notebook private
+.private/
+
+# Jupyter notebook secret
+.secret/
+
+# Jupyter notebook config
+.config/
+
+# Jupyter notebook settings
+.settings/
+
+# Jupyter notebook preferences
+.preferences/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter notebook history
+.history/
+
+# Jupyter notebook backup
+.backup/
+
+# Jupyter notebook snapshot
+.snapshot/
+
+# Jupyter notebook recovery
+.recovery/
+
+# Jupyter notebook work
+.work/
+
+# Jupyter notebook temp
+.temp/
+
+# Jupyter notebook intermediate
+.intermediate/
+
+# Jupyter notebook scratch
+.scratch/
+
+# Jupyter notebook staging
+.staging/
+
+# Jupyter notebook draft
+.draft/
+
+# Jupyter notebook cache
+.caches/
+
+# Jupyter notebook compiled
+.compiled/
+
+# Jupyter notebook output
+.output/
+
+# Jupyter notebook results
+.results/
+
+# Jupyter notebook data
+.data/
+
+# Jupyter notebook models
+.models/
+
+# Jupyter notebook artifacts
+.artifacts/
+
+# Jupyter notebook reports
+.reports/
+
+# Jupyter notebook logs
+.logs/
+
+# Jupyter notebook exports
+.exports/
+
+# Jupyter notebook imports
+.imports/
+
+# Jupyter notebook downloads
+.downloads/
+
+# Jupyter notebook uploads
+.uploads/
+
+# Jupyter notebook temporary
+.temporary/
+
+# Jupyter notebook storage
+.storage/
+
+# Jupyter notebook workspace
+.workspace/
+
+# Jupyter notebook local
+.local/
+
+# Jupyter notebook private
+.private/
+
+# Jupyter notebook secret
+.secret/
+
+# Jupyter notebook config
+.config/
+
+# Jupyter notebook settings
+.settings/
+
+# Jupyter notebook preferences
+.preferences/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter notebook history
+.history/
+
+# Jupyter notebook backup
+.backup/
+
+# Jupyter notebook snapshot
+.snapshot/
+
+# Jupyter notebook recovery
+.recovery/
+
+# Jupyter notebook work
+.work/
+
+# Jupyter notebook temp
+.temp/
+
+# Jupyter notebook intermediate
+.intermediate/
+
+# Jupyter notebook scratch
+.scratch/
+
+# Jupyter notebook staging
+.staging/
+
+# Jupyter notebook draft
+.draft/
+
+# Jupyter notebook cache
+.caches/
+
+# Jupyter notebook compiled
+.compiled/
+
+# Jupyter notebook output
+.output/
+
+# Jupyter notebook results
+.results/
+
+# Jupyter notebook data
+.data/
+
+# Jupyter notebook models
+.models/
+
+# Jupyter notebook artifacts
+.artifacts/
+
+# Jupyter notebook reports
+.reports/
+
+# Jupyter notebook logs
+.logs/
+
+# Jupyter notebook exports
+.exports/
+
+# Jupyter notebook imports
+.imports/
+
+# Jupyter notebook downloads
+.downloads/
+
+# Jupyter notebook uploads
+.uploads/
+
+# Jupyter notebook temporary
+.temporary/
+
+# Jupyter notebook storage
+.storage/
+
+# Jupyter notebook workspace
+.workspace/
+
+# Jupyter notebook local
+.local/
+
+# Jupyter notebook private
+.private/
+
+# Jupyter notebook secret
+.secret/
+
+# Jupyter notebook config
+.config/
+
+# Jupyter notebook settings
+.settings/
+
+# Jupyter notebook preferences
+.preferences/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter notebook history
+.history/
+
+# Jupyter notebook backup
+.backup/
+
+# Jupyter notebook snapshot
+.snapshot/
+
+# Jupyter notebook recovery
+.recovery/
+
+# Jupyter notebook work
+.work/
+
+# Jupyter notebook temp
+.temp/
+
+# Jupyter notebook intermediate
+.intermediate/
+
+# Jupyter notebook scratch
+.scratch/
+
+# Jupyter notebook staging
+.staging/
+
+# Jupyter notebook draft
+.draft/
+
+# Jupyter notebook cache
+.caches/
+
+# Jupyter notebook compiled
+.compiled/
+
+# Jupyter notebook output
+.output/
+
+# Jupyter notebook results
+.results/
+
+# Jupyter notebook data
+.data/
+
+# Jupyter notebook models
+.models/
+
+# Jupyter notebook artifacts
+.artifacts/
+
+# Jupyter notebook reports
+.reports/
+
+# Jupyter notebook logs
+.logs/
+
+# Jupyter notebook exports
+.exports/
+
+# Jupyter notebook imports
+.imports/
+
+# Jupyter notebook downloads
+.downloads/
+
+# Jupyter notebook uploads
+.uploads/
+
+# Jupyter notebook temporary
+.temporary/
+
+# Jupyter notebook storage
+.storage/
+
+# Jupyter notebook workspace
+.workspace/
+
+# Jupyter notebook local
+.local/
+
+# Jupyter notebook private
+.private/
+
+# Jupyter notebook secret
+.secret/
+
+# Jupyter notebook config
+.config/
+
+# Jupyter notebook settings
+.settings/
+
+# Jupyter notebook preferences
+.preferences/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter notebook history
+.history/
+
+# Jupyter notebook backup
+.backup/
+
+# Jupyter notebook snapshot
+.snapshot/
+
+# Jupyter notebook recovery
+.recovery/
+
+# Jupyter notebook work
+.work/
+
+# Jupyter notebook temp
+.temp/
+
+# Jupyter notebook intermediate
+.intermediate/
+
+# Jupyter notebook scratch
+.scratch/
+
+# Jupyter notebook staging
+.staging/
+
+# Jupyter notebook draft
+.draft/
+
+# Jupyter notebook cache
+.caches/
+
+# Jupyter notebook compiled
+.compiled/
+
+# Jupyter notebook output
+.output/
+
+# Jupyter notebook results
+.results/
+
+# Jupyter notebook data
+.data/
+
+# Jupyter notebook models
+.models/
+
+# Jupyter notebook artifacts
+.artifacts/
+
+# Jupyter notebook reports
+.reports/
+
+# Jupyter notebook logs
+.logs/
+
+# Jupyter notebook exports
+.exports/
+
+# Jupyter notebook imports
+.imports/
+
+# Jupyter notebook downloads
+.downloads/
+
+# Jupyter notebook uploads
+.uploads/
+
+# Jupyter notebook temporary
+.temporary/
+
+# Jupyter notebook storage
+.storage/
+
+# Jupyter notebook workspace
+.workspace/
+
+# Jupyter notebook local
+.local/
+
+# Jupyter notebook private
+.private/
+
+# Jupyter notebook secret
+.secret/
+
+# Jupyter notebook config
+.config/
+
+# Jupyter notebook settings
+.settings/
+
+# Jupyter notebook preferences
+.preferences/
+
+# Jupyter notebook metadata
+.metadata/
+
+# Jupyter notebook state
+.state/
+
+# Jupyter notebook runtime
+.runtime/
+
+# Jupyter notebook session
+.session/
+
+# Jupyter......
