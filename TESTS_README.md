@@ -146,3 +146,97 @@ pytest test_reconciliation.py --cov=reconciliation_module --cov-report=html
 3. **Автоматическое подключение библиотек:** Функция `add_system_python_db_libraries` добавляет системные пути к oracledb/psycopg2
 
 4. **Мокирование в тестах:** Тесты не требуют реального подключения к БД, используются Mock-объекты
+
+## Запуск тестов из Jupyter Notebook
+
+Для запуска модульных тестов непосредственно из ноутбука `data_reconciliation_tool.ipynb`:
+
+### Шаг 1: Подготовка окружения
+
+Убедитесь, что в той же директории находятся файлы:
+- `data_reconciliation_tool.ipynb`
+- `test_reconciliation.py`
+- `reconciliation_module.py`
+
+### Шаг 2: Установка зависимостей в ноутбуке
+
+Выполните ячейку с установкой pytest (если еще не установлен):
+```python
+!pip install pytest pandas numpy sqlalchemy seaborn matplotlib
+```
+
+### Шаг 3: Запуск тестов из ячейки ноутбука
+
+Создайте новую ячейку в начале или конце ноутбука и вставьте следующий код:
+
+```python
+# Запуск модульных тестов из Jupyter Notebook
+import sys
+import pytest
+
+# Опционально: проверить наличие файлов
+import os
+print("📁 Проверка файлов:")
+print(f"  test_reconciliation.py: {os.path.exists('test_reconciliation.py')}")
+print(f"  reconciliation_module.py: {os.path.exists('reconciliation_module.py')}")
+
+# Запуск всех тестов с подробным выводом
+print("\n🧪 Запуск модульных тестов...")
+exit_code = pytest.main(['test_reconciliation.py', '-v', '--tb=short'])
+
+if exit_code == 0:
+    print("\n✅ Все тесты пройдены успешно!")
+else:
+    print(f"\n❌ Тесты завершились с кодом: {exit_code}")
+```
+
+### Шаг 4: Запуск конкретных тестов
+
+Для запуска отдельных групп тестов используйте:
+
+```python
+# Только тесты конфигурации
+pytest.main(['test_reconciliation.py::TestReconciliationConfig', '-v'])
+
+# Только тесты DataReconciliator
+pytest.main(['test_reconciliation.py::TestDataReconciliator', '-v'])
+
+# Тесты с отчетом о покрытии (требуется pytest-cov)
+!pip install pytest-cov
+pytest.main(['test_reconciliation.py', '--cov=reconciliation_module', '--cov-report=term-missing'])
+```
+
+### Шаг 5: Интерпретация результатов
+
+- ✅ **Зеленые тесты** - все проверки пройдены
+- ❌ **Красные тесты** - обнаружены ошибки (проверьте стек трейс)
+- ⚠️ **Желтые предупреждения** - тесты пропущены или есть warnings
+
+### Важные замечания
+
+1. **Рабочая директория:** Убедитесь, что ноутбук запущен из той же директории, где находятся файлы тестов
+2. **Ядро Python:** Ноутбук должен использовать то же окружение Python, где установлен pytest
+3. **Моки работают:** Тесты используют моки, поэтому реальное подключение к БД не требуется
+4. **Перезапуск ядра:** После изменений в `reconciliation_module.py` рекомендуется выполнить "Restart & Run All"
+
+### Пример вывода в ноутбуке
+
+```
+📁 Проверка файлов:
+  test_reconciliation.py: True
+  reconciliation_module.py: True
+
+🧪 Запуск модульных тестов...
+============================= test session starts ==============================
+collected 18 items
+
+test_reconciliation.py::TestAddSystemPythonDbLibraries::test_function_exists PASSED
+test_reconciliation.py::TestAddSystemPythonDbLibraries::test_function_runs_without_error PASSED
+test_reconciliation.py::TestReconciliationConfig::test_config_creation_with_required_fields PASSED
+...
+test_reconciliation.py::TestIntegration::test_config_validation PASSED
+
+============================== 18 passed in 5.56s ==============================
+
+✅ Все тесты пройдены успешно!
+```
