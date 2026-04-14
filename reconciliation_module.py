@@ -997,15 +997,26 @@ class DataReconciliator:
                     
                     # Объединяем для сравнения
                     stage2_details = pd.concat([oracle_detail_df, postgres_detail_df], ignore_index=True)
-                    stage2_details['HAS_ISSUE'] = stage2_details.apply(
-                        lambda row: 'DISCREPANCY_FOUND' if any(
-                            row[key] in discrepancies[keys].values.flatten() 
-                            for key in keys if key in row
-                        ) else 'OK', 
-                        axis=1
-                    )
+                    
+                    # КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Создаем набор кортежей ключей для расхождений
+                    # Это обеспечивает правильную проверку составных ключей
+                    discrepancy_key_set = set()
+                    for _, row in discrepancy_keys.iterrows():
+                        key_tuple = tuple(row[key] for key in keys)
+                        discrepancy_key_set.add(key_tuple)
+                    
+                    # Помечаем записи как DISCREPANCY_FOUND только если их комбинация ключей есть в расхождениях
+                    def mark_discrepancy(row):
+                        try:
+                            key_tuple = tuple(row[key] for key in keys if key in row)
+                            return 'DISCREPANCY_FOUND' if key_tuple in discrepancy_key_set else 'OK'
+                        except Exception:
+                            return 'OK'
+                    
+                    stage2_details['HAS_ISSUE'] = stage2_details.apply(mark_discrepancy, axis=1)
                     
                     print(f"Детально проверено записей: {len(stage2_details)}")
+                    print(f"Записей с расхождениями: {(stage2_details['HAS_ISSUE'] == 'DISCREPANCY_FOUND').sum()}")
                 else:
                     print("Нет ключей для детальной проверки")
             else:
