@@ -830,13 +830,31 @@ class DataReconciliator:
                 detail_columns = self.oracle_metadata['all_columns'].copy()  # Все колонки из Oracle
                 
                 # Формирование условия WHERE для ключей
+                # КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Значения ключей из discrepancy_keys уже преобразованы в строки
+                # на этапе агрегации (через TO_CHAR), поэтому нужно корректно обрабатывать их для SQL
                 key_conditions = []
+                
+                # Определяем, какие ключи являются датами
+                date_fields = self.oracle_metadata['classification'].get('date_fields', [])
+                
                 for _, row in discrepancy_keys.iterrows():
                     cond_parts = []
                     for key in keys:
                         value = row[key]
+                        
+                        # Проверка на NULL значение
                         if pd.isna(value) or value == '__NULL__':
                             cond_parts.append(f"{key} IS NULL")
+                        # Проверка, является ли ключ полем даты
+                        elif key.upper() in [k.upper() for k in date_fields]:
+                            # Для дат используем явное преобразование формата
+                            if isinstance(value, str) and len(value) == 10 and value[4] == '-' and value[7] == '-':
+                                # Формат YYYY-MM-DD - преобразуем в дату Oracle
+                                cond_parts.append(f"{key} = TO_DATE('{value}', 'YYYY-MM-DD')")
+                            else:
+                                # Другой формат или уже дата - пробуем прямое сравнение
+                                escaped_value = str(value).replace("'", "''")
+                                cond_parts.append(f"{key} = TO_DATE('{escaped_value}', 'YYYY-MM-DD')")
                         elif isinstance(value, str):
                             escaped_value = value.replace("'", "''")  # Escape single quotes
                             cond_parts.append(f"{key} = '{escaped_value}'")
@@ -845,7 +863,75 @@ class DataReconciliator:
                     key_conditions.append(" AND ".join(cond_parts))
                 
                 if key_conditions:
-                    where_clause = " OR ".join(key_conditions)
+                    # КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Не используем OR для объединения условий ключей,
+                    # так как это приводит к некорректному SQL и ошибке ORA-01861.
+                    # Вместо этого используем подзапрос с IN для составных ключей.
+                    
+                    # Формируем список значений составных ключей для подзапроса IN
+                    # Для Oracle используем конкатенацию или EXISTS подход
+                    # Для надежности используем подход с EXISTS через временную таблицу значений
+                    
+                    # Определяем, какие ключи являются датами для корректного форматирования
+                    date_fields = self.oracle_metadata['classification'].get('date_fields', [])
+                    
+                    # Создаем список кортежей значений для WHERE IN
+                    key_value_pairs = []
+                    for _, row in discrepancy_keys.iterrows():
+                        pair_parts = []
+                        for key in keys:
+                            value = row[key]
+                            if pd.isna(value) or value == '__NULL__':
+                                pair_parts.append("NULL")
+                            elif isinstance(value, str):
+                                escaped_value = value.replace("'", "''")
+                                pair_parts.append(f"'{escaped_value}'")
+                            else:
+                                pair_parts.append(str(value))
+                        key_value_pairs.append(f"({', '.join(pair_parts)})")
+                    
+                    # Формируем условие WHERE для составных ключей через IN
+                    if len(keys) == 1:
+                        # Для одного ключа простое IN
+                        where_clause = f"{keys[0]} IN ({', '.join([p[1:-1] for p in key_value_pairs])})"
+                    else:
+                        # Для составных ключей используем конкатенацию или EXISTS
+                        # В Oracle используем конкатенацию через ||
+                        oracle_key_parts = []
+                        postgres_key_parts = []
+                        for key in keys:
+                            if key.upper() in [k.upper() for k in date_fields]:
+                                oracle_key_parts.append(f"NVL(TO_CHAR({key}, 'YYYY-MM-DD'), '__NULL__')")
+                                postgres_key_parts.append(f"COALESCE(TO_CHAR({key}::DATE, 'YYYY-MM-DD'), '__NULL__')")
+                            else:
+                                oracle_key_parts.append(f"NVL(UPPER(TRIM(TO_CHAR({key}))), '__NULL__')")
+                                postgres_key_parts.append(f"COALESCE(UPPER(TRIM({key}::TEXT)), '__NULL__')")
+                        
+                        # Формируем значения для конкатенированного сравнения
+                        concatenated_values_oracle = []
+                        concatenated_values_postgres = []
+                        for _, row in discrepancy_keys.iterrows():
+                            parts_ora = []
+                            parts_pg = []
+                            for key in keys:
+                                value = row[key]
+                                if pd.isna(value) or value == '__NULL__':
+                                    parts_ora.append("'__NULL__'")
+                                    parts_pg.append("'__NULL__'")
+                                elif isinstance(value, str):
+                                    escaped_value = value.replace("'", "''").upper().strip()
+                                    parts_ora.append(f"'{escaped_value}'")
+                                    parts_pg.append(f"'{escaped_value}'")
+                                else:
+                                    parts_ora.append(str(value))
+                                    parts_pg.append(str(value))
+                            concatenated_values_oracle.append(" || '|' || ".join(parts_ora))
+                            concatenated_values_postgres.append(" || '|' || ".join(parts_pg))
+                        
+                        oracle_where_expr = " || '|' || ".join(oracle_key_parts)
+                        postgres_where_expr = " || '|' || ".join(postgres_key_parts)
+                        
+                        where_clause_oracle = f"({oracle_where_expr}) IN ({', '.join(concatenated_values_oracle)})"
+                        where_clause_postgres = f"({postgres_where_expr}) IN ({', '.join(concatenated_values_postgres)})"
                     
                     # Добавление фильтра по году для детальных запросов (если задан в конфиге)
                     # Это предотвращает ошибку ORA-01861 при неявном преобразовании дат
@@ -871,18 +957,28 @@ class DataReconciliator:
                             year_filter_postgres = " AND " + " AND ".join(year_conditions_postgres)
                     
                     # Запрос детальных данных из Oracle
-                    oracle_detail_query = f"""
-                        SELECT {", ".join(detail_columns)}
-                        FROM {self.config.oracle_schema}.{self.config.oracle_table}
-                        WHERE ({where_clause}){year_filter_oracle}
-                    """
-                    
-                    # Запрос детальных данных из Postgres
-                    postgres_detail_query = f"""
-                        SELECT {", ".join(detail_columns)}
-                        FROM {self.config.postgres_schema}.{self.config.postgres_table}
-                        WHERE ({where_clause}){year_filter_postgres}
-                    """
+                    if len(keys) > 1:
+                        oracle_detail_query = f"""
+                            SELECT {", ".join(detail_columns)}
+                            FROM {self.config.oracle_schema}.{self.config.oracle_table}
+                            WHERE {where_clause_oracle}{year_filter_oracle}
+                        """
+                        postgres_detail_query = f"""
+                            SELECT {", ".join(detail_columns)}
+                            FROM {self.config.postgres_schema}.{self.config.postgres_table}
+                            WHERE {where_clause_postgres}{year_filter_postgres}
+                        """
+                    else:
+                        oracle_detail_query = f"""
+                            SELECT {", ".join(detail_columns)}
+                            FROM {self.config.oracle_schema}.{self.config.oracle_table}
+                            WHERE {where_clause}{year_filter_oracle}
+                        """
+                        postgres_detail_query = f"""
+                            SELECT {", ".join(detail_columns)}
+                            FROM {self.config.postgres_schema}.{self.config.postgres_table}
+                            WHERE {where_clause}{year_filter_postgres}
+                        """
                     
                     print("Загрузка детальных данных из Oracle...")
                     with self.oracle_engine.connect() as conn:
