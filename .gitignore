@@ -1,14 +1,84 @@
-```
-# Compiled Python files
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Python
+__pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage reports
+.coverage
+htmlcov/
+coverage/
+
+# Build artifacts
+dist/
+build/
+*.egg
+*.whl
+target/
+
+# Environment variables
+.env*
+!.env.example
+
+# MyPy cache
+.mypy_cache/
 __pycache__/
 
-# Jupyter notebook checkpoints
-.ipynb_checkpoints/
+# PyTest cache
+.pytest_cache/
 
-# Local environment variables
-.env.local
+# Temporary files
+*.tmp
+*.temp
 
-# VS Code settings
-.vscode/settings.json
-```
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
