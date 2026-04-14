@@ -847,18 +847,41 @@ class DataReconciliator:
                 if key_conditions:
                     where_clause = " OR ".join(key_conditions)
                     
+                    # Добавление фильтра по году для детальных запросов (если задан в конфиге)
+                    # Это предотвращает ошибку ORA-01861 при неявном преобразовании дат
+                    # и обеспечивает согласованность с основным этапом сверки
+                    year_filter_oracle = ""
+                    year_filter_postgres = ""
+                    
+                    if self.config.report_date_column and (self.config.year_from is not None or self.config.year_to is not None):
+                        year_conditions_oracle = []
+                        year_conditions_postgres = []
+                        
+                        if self.config.year_from is not None:
+                            year_conditions_oracle.append(f"EXTRACT(YEAR FROM {self.config.report_date_column}) >= {self.config.year_from}")
+                            year_conditions_postgres.append(f"EXTRACT(YEAR FROM {self.config.report_date_column}::DATE) >= {self.config.year_from}")
+                        
+                        if self.config.year_to is not None:
+                            year_conditions_oracle.append(f"EXTRACT(YEAR FROM {self.config.report_date_column}) <= {self.config.year_to}")
+                            year_conditions_postgres.append(f"EXTRACT(YEAR FROM {self.config.report_date_column}::DATE) <= {self.config.year_to}")
+                        
+                        if year_conditions_oracle:
+                            year_filter_oracle = " AND " + " AND ".join(year_conditions_oracle)
+                        if year_conditions_postgres:
+                            year_filter_postgres = " AND " + " AND ".join(year_conditions_postgres)
+                    
                     # Запрос детальных данных из Oracle
                     oracle_detail_query = f"""
                         SELECT {", ".join(detail_columns)}
                         FROM {self.config.oracle_schema}.{self.config.oracle_table}
-                        WHERE {where_clause}
+                        WHERE ({where_clause}){year_filter_oracle}
                     """
                     
                     # Запрос детальных данных из Postgres
                     postgres_detail_query = f"""
                         SELECT {", ".join(detail_columns)}
                         FROM {self.config.postgres_schema}.{self.config.postgres_table}
-                        WHERE {where_clause}
+                        WHERE ({where_clause}){year_filter_postgres}
                     """
                     
                     print("Загрузка детальных данных из Oracle...")
