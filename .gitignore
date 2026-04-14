@@ -1,65 +1,29 @@
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-*/.ipynb_checkpoints/*
-
-# Python
-__pycache__/
+*.ipynb_checkpoints
+.checkpoints/
 *.pyc
-*.pyo
-*.pyd
-.Python
-*.so
-*.egg-info/
-.eggs/
-
-# Virtual environments
-venv/
-.venv/
-env/
-.env/
-ENV/
-
-# IDE specific
-.vscode/
-.idea/
+__pycache__/
+*.log
+*.tmp
 *.swp
-*.swo
-
-# OS generated
 .DS_Store
 Thumbs.db
-
-# Logs
-*.log
-
-# Coverage reports
-.coverage
-htmlcov/
-coverage/
-
-# Build artifacts
+.env
+.env.local
+.env.*
+.vscode/
+.idea/
+node_modules/
+venv/
+.venv/
 dist/
 build/
-*.egg
-*.whl
 target/
-
-# Environment variables
-.env*
-!.env.example
-
-# MyPy cache
+.gradle/
 .mypy_cache/
-__pycache__/
-
-# PyTest cache
 .pytest_cache/
-
-# Temporary files
-*.tmp
-*.temp
-
-# Compressed files
+coverage/
+htmlcov/
+.coverage
 *.zip
 *.gz
 *.tar
